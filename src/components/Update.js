@@ -1,14 +1,13 @@
 import { Link } from 'react-router-dom';
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
 import DatePicker from "react-datepicker";
 import MultiImageInput from 'react-multiple-image-input';
 import { Formik } from 'formik';
-import {actionRegisterUser} from "../action/common"
+import {actionUpdateUser} from "../action/common"
 
 import "react-datepicker/dist/react-datepicker.css";
-
 
 class Register extends React.Component {
   constructor() {
@@ -17,6 +16,20 @@ class Register extends React.Component {
       dob: new Date(),
       images: []
     }
+  }
+
+  componentDidMount(){
+    const { match, usersList } = this.props;
+    let uId = match.params.id;
+    uId = parseInt(uId);
+    console.log('uId',uId)
+    var the = this;
+    let user  = usersList.data.filter(function (e) {
+      // console.log(e)
+        return e.id === uId;
+    });
+    user = user[0];
+    this.setState({dob: new Date(user.dob), images: user.images })
   }
 
   handleSubmit = (values) =>{
@@ -30,19 +43,37 @@ class Register extends React.Component {
     formData.append('gender', values.gender)
     formData.append('dob', dob)
     formData.append('images', images)
-    this.props.actionRegisterUser(formData);
+    this.props.actionUpdateUser(formData);
+  }
+
+  getSelectedOpt=(val, data)=>{
+    for (let hobbie of data){
+        if(val === hobbie) return true
+    }
   }
 
   render() {
     const {dob, images} = this.state;
-    const { registeringUser, userRegSucc } = this.props;
+    const {updateUser, updateUserSucc, match, usersList } = this.props;
+    let uId = match.params.id;
+    uId = parseInt(uId);
+    console.log('uId',uId)
     var the = this;
+    let user  = usersList.data.filter(function (e) {
+      // console.log(e)
+        return e.id === uId;
+    });
+    user = user[0];
+    console.log('user',user.name)
+
+
+
     return (
       <div>
-        <div className="container">
-        <h2>Register user</h2>    
+       <div className="container">
+        <h2>Update User</h2>    
         <Formik
-           initialValues={{ name: '', gender: '' , hobbie: ''}}
+           initialValues={{ name: user.name, gender: user.gender , hobbie: user.hobbies}}
            validate={values => {
              const errors = {};
              if (!values.name) {
@@ -85,18 +116,18 @@ class Register extends React.Component {
                   className="form-control" 
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.email}
+                  value={values.name}
                 />
               </div>
               {errors.name && touched.name ? <p>{errors.name} </p> : null}
               
               <div className="form-group">
                 <label for="gender">Gender:</label>
-                <select name="gender"  onChange={handleChange} className="form-control" style={{height:"40px"}}  id="gender" >
+                <select name="gender"  onChange={handleChange} className="form-control" style={{height:"40px"}}  id="gender" value={values.gender} >
                   <option>Select</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Others</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
                 </select>
               </div>
               {errors.gender && touched.gender ? <p>{errors.gender} </p> : null}
@@ -119,15 +150,15 @@ class Register extends React.Component {
 
             <div className="form-group">
               <label for="hobbie">Hobbie:</label>
-              <select name="hobbie" id="hobbie" onChange={handleChange} multiple>
-                <option>Reading</option>
-                <option>Playing</option>
-                <option>Trevling</option>
-                <option>Dancing</option>
+              <select name="hobbie" id="hobbie" onChange={handleChange}  multiple>
+                <option value="Reading" selected={this.getSelectedOpt('Reading',values.hobbie)}>Reading</option>
+                <option value="Playing" selected={this.getSelectedOpt('Playing',values.hobbie)}>Playing</option>
+                <option value="Trevling" selected={this.getSelectedOpt('Trevling',values.hobbie)}>Trevling</option>
+                <option value="Dancing" selected={this.getSelectedOpt('Dancing',values.hobbie)}>Dancing</option>
               </select>
             </div>
             {errors.hobbie && touched.hobbie ? <p>{errors.hobbie} </p> : null}
-
+          
             <button type="submit" disabled={isSubmitting}>
                 Submit
             </button>
@@ -135,18 +166,18 @@ class Register extends React.Component {
            )}
          </Formik>    
         </div>
-        {registeringUser ? <p>Registering</p> : null}
-        {userRegSucc ? <p>{userRegSucc.message}</p> : null}
+          {updateUser ? <p>Updating</p> : null}
+            {updateUserSucc ? <p>{updateUserSucc.message}</p> : null}
       </div>
     );
   }
 }
 
-
 const mapStateToProps = state => ({ ...state.common });
 
 const mapDispatchToProps = dispatch => ({
-    actionRegisterUser: (body) => dispatch(actionRegisterUser(body))
+    actionUpdateUser: (body) => dispatch(actionUpdateUser(body))
 });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

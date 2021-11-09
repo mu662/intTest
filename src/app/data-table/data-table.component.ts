@@ -5,7 +5,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./data-table.component.scss']
 })
 export class DataTableComponent implements OnInit {
-
+  title = 'datatables';
+  dtOptions: DataTables.Settings = {};
+  users = [
+    {
+      name: 'lorem',
+      phone: 7055727941,
+      address: 'tbi mohali',
+      city: 'colombo'
+    },
+    {
+      name: 'lorem',
+      phone: 7055727941,
+      address: 'tbi mohali',
+      city: 'colombo'
+    },
+     {
+      name: 'lorem',
+      phone: 7055727941,
+      address: 'tbi mohali',
+      city: 'colombo'
+    }
+  ];
   constructor() { }
 
   ngOnInit(): void {

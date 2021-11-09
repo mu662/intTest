@@ -1,55 +1,87 @@
 <ng-template #content let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">
-            User Details
-        </h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">
-                ×
-            </span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form ng-submit="onClickSubmit()">
-            <div class="form-row">
-                <label for="inputEmail4">User Name</label>
-                <input type="text" class="form-control" id="userName" placeholder="User Name" >
-            </div>
-            <div class="form-row">
-                <label for="inputEmail4">Email</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-            </div>
-            <div class="form-row">
-
-                <label for="Number">Number</label>
-                <input type="number" class="form-control" id="Number" placeholder="Moble Number">
-
-            </div>
-            <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
-            <div class="form-row">
-
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity">
-
-            </div>
-            <div class="form-row">
-                <label for="inputCity">DOB</label>
-                <input type="date" class="form-control" id="inputCity">
-            </div>
-
-            <button type="submit" class="btn btn-primary mt-2">Sign in</button>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
-            Save
-        </button>
-    </div>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      User Details
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">
+        ×
+      </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="requiredForm" novalidate>
+      <!-- user name -->
+      <div class="form-group">
+        <label class="center-block">Name: </label>
+        <input class="form-control" formControlName="name">
+      </div>
+      <p *ngIf="requiredForm.controls['name'].invalid && requiredForm.controls['name'].touched" class="text-danger">
+        <span *ngIf="requiredForm.controls['name'].errors.required">
+          Name is required.
+        </span>
+      </p>
+      <!-- user email -->
+      <div class="form-group">
+        <label class="center-block">Email: </label>
+        <input class="form-control" formControlName="email">
+      </div>
+      <p *ngIf="requiredForm.controls['email'].invalid && requiredForm.controls['email'].touched" class="text-danger">
+        <span *ngIf="requiredForm.controls['email'].errors.required">
+          Email is required.
+        </span>
+      </p>
+      <!-- user address -->
+      <div class="form-group">
+        <label class="center-block">Address: </label>
+        <input class="form-control" formControlName="address">
+      </div>
+      <p *ngIf="requiredForm.controls['address'].invalid && requiredForm.controls['address'].touched"
+        class="text-danger">
+        <span *ngIf="requiredForm.controls['address'].errors.required">
+          Address is required.
+        </span>
+      </p>
+      <!-- user city -->
+      <div class="form-group">
+        <label class="center-block">City: </label>
+        <input class="form-control" formControlName="city">
+      </div>
+      <p *ngIf="requiredForm.controls['city'].invalid && requiredForm.controls['city'].touched" class="text-danger">
+        <span *ngIf="requiredForm.controls['city'].errors.required">
+          City is required.
+        </span>
+      </p>
+      <!-- user numbers -->
+      <div class="form-group">
+        <label class="center-block">Number: </label>
+        <input class="form-control" type="number" formControlName="number">
+      </div>
+      <p *ngIf="requiredForm.controls['number'].invalid && requiredForm.controls['number'].touched" class="text-danger">
+        <span *ngIf="requiredForm.controls['number'].errors.required">
+          Number is required.
+        </span>
+      </p>
+      <!-- user Dob -->
+      <div class="form-group">
+        <label class="center-block">DOB: </label>
+        <input class="form-control" type="date" formControlName="dob">
+      </div>
+      <p *ngIf="requiredForm.controls['dob'].invalid && requiredForm.controls['dob'].touched" class="text-danger">
+        <span *ngIf="requiredForm.controls['dob'].errors.required">
+          DOB is required.
+        </span>
+      </p>
+     
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="submitForm()" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      close
+    </button>
+  </div>
 </ng-template>
-
 <button class="btn btn-primary" (click)="open(content)">
-    ADD
+  ADD
 </button>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class DataTableComponent implements OnInit {
   title = 'datatables';
   dtOptions: DataTables.Settings = {};
+  
   users = [
     {
       name: 'lorem',
@@ -20,7 +22,7 @@ export class DataTableComponent implements OnInit {
       address: 'tbi mohali',
       city: 'colombo'
     },
-     {
+    {
       name: 'lorem',
       phone: 7055727941,
       address: 'tbi mohali',
@@ -31,5 +33,5 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+ 
 }

@@ -10,13 +10,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserFormComponent } from './user-form/user-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { DataTablesModule } from 'angular-datatables';
+import { CsvPreviewComponent } from './csv-preview/csv-preview.component';
 @NgModule({
   declarations: [
     AppComponent,
     ExpenseEntryComponent,
     TestComponent,
     DataTableComponent,
-    UserFormComponent
+    UserFormComponent,
+    CsvPreviewComponent
   ],
   imports: [
     BrowserModule,
